@@ -35,6 +35,7 @@ const validCollegeEmail = async (
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
+  const username = formData.get("username")?.toString();
   const supabase = createClient();
   const origin = headers().get("origin");
   const isValidEmail = await validCollegeEmail(email);
@@ -44,17 +45,29 @@ export const signUpAction = async (formData: FormData) => {
     return encodedRedirect("error", "/sign-up", "Invalid college email");
   }
 
-  if (!email || !password) {
+  if (!email || !password || !username) {
     return { error: "Email and password are required" };
   }
 
   const { error } = await supabase.auth.signUp({
     email,
     password,
+    // # TODO add username to send to db
+    
+
     options: {
+      data: { displayName : username },
       emailRedirectTo: `${origin}/auth/callback`,
+      
     },
   });
+
+
+  const { data } = await supabase.auth.updateUser({
+    data: { display_name: username}
+  });
+
+
 
   if (error) {
     return encodedRedirect("error", "/sign-up", error.message);

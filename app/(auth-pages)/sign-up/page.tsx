@@ -26,8 +26,10 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
           </Link>
         </p>
         <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
-          <Label htmlFor="email">Email</Label>
-          <Input name="email" placeholder="you@example.com" required />
+          <Label htmlFor="username">Name</Label>
+          <Input name="username" placeholder="Sundar Pichai" required />
+          <Label htmlFor="email">College Email</Label>
+          <Input name="email" placeholder="you@college.edu" required />
           <Label htmlFor="password">Password</Label>
           <Input
             type="password"

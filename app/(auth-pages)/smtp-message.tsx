@@ -7,10 +7,11 @@ export function SmtpMessage() {
       <InfoIcon size={16} className="mt-0.5" />
       <div className="flex flex-col gap-1">
         <small className="text-sm text-secondary-foreground">
-          <strong> Note:</strong> Emails are limited to 4 per hour. Enable a
-          custom SMTP endpoint to increase the rate limit.
+          Make sure you provide a valid college email address to receive a verification link.
         </small>
-        <div>
+
+        {/* #TODO remove this section or update if required . */}
+        {/* <div>
           <Link
             href="https://supabase.com/docs/guides/auth/auth-smtp"
             target="_blank"
@@ -18,7 +19,7 @@ export function SmtpMessage() {
           >
             Learn more <ArrowUpRight size={14} />
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );
