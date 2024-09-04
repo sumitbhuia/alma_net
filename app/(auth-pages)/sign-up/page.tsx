@@ -26,6 +26,16 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
           </Link>
         </p>
         <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
+        <Label htmlFor="role">Role</Label>
+            <select
+              name="role"
+              required
+              className="block w-full p-2.5 mt-1 mb-4 text-gray-900 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="" disabled selected>Select your role</option>
+              <option value="student">Student</option>
+              <option value="alumni">Alumni</option>
+            </select>
           <Label htmlFor="username">Name</Label>
           <Input name="username" placeholder="Sundar Pichai" required />
           <Label htmlFor="email">College Email</Label>

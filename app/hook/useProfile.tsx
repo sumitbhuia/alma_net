@@ -18,6 +18,7 @@ interface ProfileData {
   star_rating: number | null;
   created_at: string;
   updated_at: string;
+  user_role: string;
 }
 
 export default function useProfile() {

@@ -36,6 +36,7 @@ export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
   const username = formData.get("username")?.toString();
+  const userRole = formData.get("role")?.toString();
   const supabase = createClient();
   const origin = headers().get("origin");
   const isValidEmail = await validCollegeEmail(email);
@@ -45,16 +46,13 @@ export const signUpAction = async (formData: FormData) => {
     return encodedRedirect("error", "/sign-up", "Invalid college email");
   }
 
-  if (!email || !password || !username) {
-    return { error: "Email and password are required" };
+  if (!email || !password || !username || !userRole) {
+    return { error: "Email, password, username and role are required" };
   }
 
-  const { error } = await supabase.auth.signUp({
+  const { data: authData, error: authError } = await supabase.auth.signUp({
     email,
     password,
-    // # TODO add username to send to db
-    
-
     options: {
       data: { displayName : username },
       emailRedirectTo: `${origin}/auth/callback`,
@@ -62,17 +60,26 @@ export const signUpAction = async (formData: FormData) => {
     },
   });
 
-
-  const { data } = await supabase.auth.updateUser({
-    data: { display_name: username}
-  });
-
-
-
-  if (error) {
-    return encodedRedirect("error", "/sign-up", error.message);
+  if (authError) {
+    return encodedRedirect("error", "/sign-up", authError.message);
   }
 
+  const userId = authData.user?.id; 
+  
+  if (userId) {
+    const { error } = await supabase
+      .from('profiles')
+      .update({ 
+        user_role: userRole, 
+      })
+      .eq('id', userId) 
+      .select();
+
+  if (error) {
+    console.log("Error updating profile:", error.message);
+    return encodedRedirect("error", "/sign-up", "Failed to update profile");
+  }
+  }
   return encodedRedirect(
     "success",
     "/sign-up",
