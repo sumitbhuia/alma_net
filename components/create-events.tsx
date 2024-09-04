@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 
-const EventForm: React.FC = () => {
+const CreateEvent: React.FC = () => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -149,4 +149,4 @@ const EventForm: React.FC = () => {
   );
 };
 
-export default EventForm;
+export default CreateEvent;
