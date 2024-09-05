@@ -2,13 +2,13 @@
 
 import { useState, useEffect, ChangeEvent } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation"; // Import useRouter for navigation
+import { useRouter } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
 import useProfile from "../hook/useProfile";
 
 export default function VerificationDocuments() {
   const supabase = createClient();
-  const router = useRouter(); // Initialize router for navigation
+  const router = useRouter();
   const { data: profile, isLoading: isProfileLoading, error: profileError } = useProfile();
   const [userType, setUserType] = useState<"student" | "alumni">("student");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);

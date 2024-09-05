@@ -55,7 +55,7 @@ export const signUpAction = async (formData: FormData) => {
     password,
     options: {
       data: { displayName : username },
-      emailRedirectTo: `${origin}/auth/callback`,
+      emailRedirectTo: `${origin}/verify`,
       
     },
   });
@@ -103,7 +103,7 @@ export const signInAction = async (formData: FormData) => {
   }
 
   // #TODO Change endpoint to rediret to after sign-in
-  return redirect("/protected");
+  return redirect("/home");
 };
 
 export const forgotPasswordAction = async (formData: FormData) => {
