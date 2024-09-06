@@ -70,9 +70,11 @@
 import React, { useEffect, useState } from 'react';
 import { createClient } from "../utils/supabase/client";
 
+interface AvatarProps {
+  userId: string;  // Ensure the prop type is defined here
+}
 
-
-const Avatar = ({ userId }:any) => {
+const Avatar: React.FC<AvatarProps> = ({ userId }) => {
     const supabase = createClient();
   // Allow the state to accept both `string` and `null`
   const [profilePicUrl, setProfilePicUrl] = useState<string | null>(null);
