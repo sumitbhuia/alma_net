@@ -1,14 +1,20 @@
 "use client";
 import "../globals.css";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Pencil, Heart, X } from 'lucide-react';
 import { motion, Variants ,useInView } from 'framer-motion';
+import { createClient } from "../../utils/supabase/client";
+import useProfile from "../hook/useProfile";
+import Avatar from "@/components/Avatar";
+
+const supabase = createClient();
 
 // Define animation variants
 interface CardProps {
   name: string;
   courseOrCompany: string;
   isStudent: boolean;
+  userId: string;
 }
 
 const cardVariants: Variants = {
@@ -34,7 +40,7 @@ const cardVariants: Variants = {
   },
 };
 
-const Card: React.FC<CardProps> = ({ name, courseOrCompany, isStudent }) => {
+const Card: React.FC<CardProps> = ({ name, courseOrCompany, isStudent, userId }) => {
   const ref = React.useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { margin: "-200px 0px 0px 0px" });
 
@@ -49,11 +55,12 @@ const Card: React.FC<CardProps> = ({ name, courseOrCompany, isStudent }) => {
       animate={isInView ? "onscreen" : "hidden"}
     >
       <div className="flex items-center">
-        <img
+        {/* <img
           src={`/api/placeholder/128/128`}
           alt="Profile"
           className="w-16 h-16 rounded-full object-cover"
-        />
+        /> */}
+        <Avatar userId={userId} />
         <div className="ml-4">
           <p className="font-semibold text-neutral-900 dark:text-neutral-50">{name}</p>
           <p className="text-sm text-neutral-600 dark:text-neutral-400">
@@ -69,6 +76,41 @@ const HomePage: React.FC = () => {
   const [isPostingModalOpen, setIsPostingModalOpen] = useState<boolean>(false);
   const [expandedPost, setExpandedPost] = useState<number | null>(null);
   const [newComment, setNewComment] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>(""); // State for search input
+  const [users, setUsers] = useState<{
+    userId: string; name: string; courseOrCompany: string; isStudent: boolean 
+}[]>([]);
+  const { data: profileData, isLoading: isProfileLoading } = useProfile();
+  
+  useEffect(() => {
+    if(profileData && !isProfileLoading){
+
+    const fetchUsers = async (search="") => {
+      const userRole=profileData?.user_role;
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('display_name, current_company, user_role, course, id')
+        .neq("user_role", userRole)
+        .ilike('display_name', `%${search}%`);
+
+      if (error) {
+        console.error('Error fetching users:', error);
+      } else {
+        const mappedUsers = data.map(user => ({
+          name: user.display_name || 'Unknown',
+          courseOrCompany: user.current_company || user.course,
+          isStudent: user.user_role === 'student',
+          userId: user.id,
+        }));
+        setUsers(mappedUsers);
+      }
+    };
+
+    fetchUsers(searchTerm);
+  }
+  }, [profileData, isProfileLoading, searchTerm]);
+
 
   const openPostModal = (postId: number) => {
     setExpandedPost(postId);
@@ -88,19 +130,10 @@ const HomePage: React.FC = () => {
     setNewComment("");
   };
 
-  // Sample data
-  const users = [
-    { name: 'John Doe', courseOrCompany: 'Computer Science', isStudent: true },
-    { name: 'Jane Smith', courseOrCompany: 'Google', isStudent: false },
-    { name: 'John Doe', courseOrCompany: 'Computer Science', isStudent: true },
-    { name: 'Jane Smith', courseOrCompany: 'Google', isStudent: false },
-    { name: 'John Doe', courseOrCompany: 'Computer Science', isStudent: true },
-    { name: 'Jane Smith', courseOrCompany: 'Google', isStudent: false },
-    { name: 'John Doe', courseOrCompany: 'Computer Science', isStudent: true },
-    { name: 'Jane Smith', courseOrCompany: 'Google', isStudent: false },
-                
-    // Add more users as needed
-  ];
+  if(isProfileLoading){
+    return <div>Loading...</div>
+  }
+
 
   return (
     <div className="w-full h-[calc(100vh-4rem)] flex">
@@ -111,6 +144,8 @@ const HomePage: React.FC = () => {
       type="text"
       placeholder="Search students or alumni..."
       className="w-11/12 p-2 border rounded-lg bg-neutral-100 dark:bg-neutral-900 focus:outline-none"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)} // Update search input state
     />
   </div>
         <div className="grid grid-cols-1 gap-4 mt-4">
@@ -120,6 +155,7 @@ const HomePage: React.FC = () => {
               name={user.name}
               courseOrCompany={user.courseOrCompany}
               isStudent={user.isStudent}
+              userId={user.userId}
             />
           ))}
         </div>
@@ -184,10 +220,10 @@ const HomePage: React.FC = () => {
           <h2 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Upcoming Events</h2>
           <p className="text-gray-500 dark:text-gray-400">No events scheduled</p>
         </div>
-        <div className="mt-4 bg-neutral-100 dark:bg-neutral-950 p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl cursor-pointer">
+        {/* <div className="mt-4 bg-neutral-100 dark:bg-neutral-950 p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl cursor-pointer">
           <h2 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Notifications</h2>
           <p className="text-gray-500 dark:text-gray-400">No new notifications</p>
-        </div>
+        </div> */}
       </div>
 
       {/* Posting Modal */}
