@@ -137,7 +137,7 @@ export default function Home() {
           <div className="w-full md:w-1/2 flex justify-center md:justify-start">
             <div className="relative transform -translate-y-9"> {/* Moves the image upwards */}
               <Image 
-                src="/image/man.png" 
+                src="/images/man.png" 
                 alt="Man with scope" 
                 width={650}   // Increased size
                 height={650}  // Increased size
