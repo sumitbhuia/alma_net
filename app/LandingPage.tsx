@@ -72,22 +72,21 @@ export default function LandingPage() {
   const isDarkMode = theme === 'dark';
 
   const services = [
-    { title: 'Discussion Forum', description: 'Dynamic forum for fostering meaningful connections and discussions between alumni and students.', icon: '/images/branding-icon.png' },
-    { title: 'Career Guidance', description: 'Personalized advice and mentorship to guide students in making informed career decisions.', icon: '/images/webdev-icon.png' },
-    { title: 'Interactive Chatbot', description: 'AI-driven chatbot for seamless platform navigation and instant answers to user queries.', icon: '/images/digital-marketing-icon.png' },
-    { title: 'Live Webinar', description: 'Interactive live sessions connecting students with alumni for real-time learning and networking.', icon: '/images/mobile-app-icon.png' },
-    { title: 'Chat', description: 'Integer ante non nunc, eget est justo vel semper nunc. Lacus', icon: '/images/seo-icon.png' },
-    { title: 'Donation', description: 'Support your alma mater through a secure and easy-to-use donation platform.', icon: '/images/user-testing-icon.png' },
-    { title: 'Startup Funding', description: 'Empower student innovation with funding opportunities for promising startup ideas.', icon: '/images/mobile-app-icon.png' },
-    { title: 'AI Recommendation', description: 'Integer ante non nunc, eget est justo vel semper nunc. Lacus', icon: '/images/seo-icon.png' },
-    { title: 'OCR Verfication', description: 'Sed faucibus faucibus egestas volutpat, accumsan adipiscing egestas est. Auctor et leo urna est.', icon: '/images/user-testing-icon.png' },
+    { title: 'Discussion Forum', description: 'Dynamic forum for fostering meaningful connections and discussions between alumni and students.', icon: '/icons/discussion.png' },
+    { title: 'Career Guidance', description: 'Personalized advice and mentorship to guide students in making informed career decisions.', icon: '/icons/guidance.png' },
+    { title: 'Interactive Chatbot', description: 'AI-driven chatbot for seamless platform navigation and instant answers to user queries.', icon: '/icons/chatbot.png' },
+    { title: 'Live Webinar', description: 'Interactive live sessions connecting students with alumni for real-time learning and networking.', icon: '/icons/webinar.png' },
+    { title: 'Chat', description: 'Career guidance,mentorship and boosted career growth through 1:1 chat portal for students and alumni', icon: '/icons/chat.png' },
+    { title: 'Donation', description: 'Support your alma mater through a secure and easy-to-use donation platform.', icon: '/icons/donation.png' },
+    { title: 'Startup Funding', description: 'Empower student innovation with funding opportunities for promising startup ideas.', icon: '/icons/funding.png' },
+    { title: 'AI Recommendation', description: 'AI powered alumni recommendation based on working industry and skillsets. ', icon: '/icons/ai.png' },
+    { title: 'OCR Verfication', description: 'Optical character recognition for eliminating fraudlets during user onboarding process.', icon: '/icons/verification.png' },
   ];
 
   return (
     <div className={`w-full h-auto py-20 px-4 ${isDarkMode ? 'bg-black text-white' : 'bg-gray-100 text-gray-900'}`}>
       {/* Main Content */}
       <div className="max-w-7xl mx-auto text-center">
-        <Image src="/images/placeholder.png" alt="We Offer" width={60} height={60} className="mx-auto mb-4" />
         <h2 className="text-4xl font-bold mb-4">We Offer</h2>
         <p className="text-lg mb-16">
           AlumNet is committed to bridging the experience gap by providing the best student-alumni connect through various services.

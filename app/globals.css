@@ -89,3 +89,30 @@
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
+
+
+.tech-stacks {
+  overflow: hidden;
+  width: 100%;
+  background: linear-gradient(to right, #3b3b3b, #000); /* Adjust colors as needed */
+  padding: 20px 0;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-container div {
+  padding: 0 15px;
+  display: inline-block; /* Ensure images are inline to support continuous scrolling */
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
