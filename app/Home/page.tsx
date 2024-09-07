@@ -503,7 +503,7 @@
 
 "use client";
 import "../globals.css";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import { Search, Pencil, Heart, X, Calendar, DollarSign } from 'lucide-react';
 import { motion, Variants, useInView } from 'framer-motion';
 import { createClient } from "../../utils/supabase/client";
@@ -511,7 +511,7 @@ import useProfile from "../hook/useProfile";
 import Avatar from "@/components/Avatar";
 import { useRouter } from "next/navigation";
 import { useEvents } from "../hook/useEvents";
-import { useQuery } from "@tanstack/react-query";
+
 
 const supabase = createClient();
 
@@ -577,7 +577,28 @@ const HomePage: React.FC = () => {
   const router = useRouter();
   const { events, isLoading: isEventLoading } = useEvents();
 
+  
+type ProfileData = {
+  user_role: string;
+};
 
+useEffect(() => {
+  const fetchUserRole = async () => {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('user_role')
+      .eq('id', profileData?.id)
+      .single<ProfileData>(); // Type assertion to specify the expected type
+
+    if (error) {
+      console.error('Error fetching user role:', error);
+    } else if (data) {
+      console.log('User role:', data.user_role); // Do something with data.user_role
+    }
+  };
+
+  fetchUserRole();
+}, [profileData?.id]);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -826,67 +847,86 @@ const HomePage: React.FC = () => {
       </div>
       
       {/* Right Section */}
-      <div className="w-1/4 p-4 overflow-auto">
-        <div className="space-y-4">
-          <motion.div 
-            className="bg-white dark:bg-neutral-800 p-4 rounded-lg shadow-lg"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+{/* Right Section */}
+<div className="w-1/4 p-4 overflow-auto">
+  <div className="space-y-4">
+    {profileData?.user_role === "alumni" && (
+      <>
+        <motion.div 
+          className="bg-white dark:bg-neutral-800 p-4 rounded-lg shadow-lg"
+          whileHover={{ scale: 1.05 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        >
+          <button 
+            onClick={() => router.push("/events")}
+            className="w-full p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center"
           >
-            <button 
-              onClick={() => router.push("/events")}
-              className="w-full p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center"
-            >
-              <Calendar size={20} className="mr-2" />
-              Create Event
-            </button>
-          </motion.div>
-          <motion.div 
-            className="bg-white dark:bg-neutral-800 p-4 rounded-lg shadow-lg"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            <Calendar size={20} className="mr-2" />
+            Create Event
+          </button>
+        </motion.div>
+        <motion.div 
+          className="bg-white dark:bg-neutral-800 p-4 rounded-lg shadow-lg"
+          whileHover={{ scale: 1.05 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        >
+          <button 
+            onClick={() => router.push("/donate")}
+            className="w-full p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center"
           >
-            <button 
-              onClick={() => router.push("/donate")}
-              className="w-full p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center"
-            >
-              <DollarSign size={20} className="mr-2" />
-              Donate now
-            </button>
-          </motion.div>
-        </div>
+            <DollarSign size={20} className="mr-2" />
+            Donate now
+          </button>
+        </motion.div>
+      </>
+    )}
 
-        <div className="mt-8">
-          <h2 className="text-xl font-semibold mb-4 text-neutral-800 dark:text-neutral-200">Upcoming Events</h2>
-          <div className="space-y-4">
-            {events.map((event) => (
-              <motion.div 
-                key={event.id} 
-                className="bg-white dark:bg-neutral-800 p-4 rounded-lg shadow-md"
-                whileHover={{ scale: 1.03 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
-                <h3 className="text-lg font-bold text-neutral-800 dark:text-neutral-200">{event.name}</h3>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">{event.description}</p>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                  {event.is_online ? `Online Event` : `Location: ${event.location}`}
-                </p>
-                <a
-                  href={event.url}
-                  className="text-blue-500 dark:text-blue-400 hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Join now
-                </a>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-2">
-                  Date: {new Date(event.date).toLocaleString()}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
+    <motion.div 
+      className="bg-white dark:bg-neutral-800 p-4 rounded-lg shadow-lg"
+      whileHover={{ scale: 1.05 }}
+      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+    >
+      <button 
+        onClick={() => router.push("/funds")}
+        className="w-full p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center"
+      >
+        <DollarSign size={20} className="mr-2" />
+        Raise Funding
+      </button>
+    </motion.div>
+  </div>
+
+  <div className="mt-8">
+    <h2 className="text-xl font-semibold mb-4 text-neutral-800 dark:text-neutral-200">Upcoming Events</h2>
+    <div className="space-y-4">
+      {events.map((event) => (
+        <motion.div 
+          key={event.id} 
+          className="bg-white dark:bg-neutral-800 p-4 rounded-lg shadow-md"
+          whileHover={{ scale: 1.03 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        >
+          <h3 className="text-lg font-bold text-neutral-800 dark:text-neutral-200">{event.name}</h3>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">{event.description}</p>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">
+            {event.is_online ? `Online Event` : `Location: ${event.location}`}
+          </p>
+          <a
+            href={event.url}
+            className="text-blue-500 dark:text-blue-400 hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Join now
+          </a>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-2">
+            Date: {new Date(event.date).toLocaleString()}
+          </p>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</div>
 
       {/* Posting Modal */}
       {isPostingModalOpen && (

@@ -206,7 +206,7 @@ import { useRouter } from "next/navigation";
                     value={formData.contact}
                     onChange={handleInputChange}
                     className="w-full bg-transparent text-gray-800 dark:text-white p-3 rounded-lg border border-gray-600 dark:border-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
-                    placeholder="yourname@gmail.com"
+                    placeholder="+91 1234567890"
                   />
                 </div>
 
