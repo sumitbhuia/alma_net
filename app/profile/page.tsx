@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { createClient } from "../../utils/supabase/client";
 import useProfile from "../hook/useProfile";
+import { useRouter } from "next/navigation";
 
   const ProfilePage: React.FC = () => {
     const supabase = createClient();
@@ -12,7 +13,7 @@ import useProfile from "../hook/useProfile";
     const [selectedCollege, setSelectedCollege] = useState<string | null>(null);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [colleges, setColleges] = useState<{ id: string; college_name: string }[]>([]);
-
+    const router = useRouter();
 
 
 
@@ -145,6 +146,11 @@ import useProfile from "../hook/useProfile";
     if (profileError) {
       return <div className="flex items-center justify-center">Error loading profile: {profileError.message}</div>;
     }
+
+    const handleSaveAndRedirect = async () => {
+      await handleSave(); // Ensure handleSave() returns a promise if it's asynchronous
+      router.push('/home'); // Navigate to the /home route
+    };
 
   return (
     <div className="w-full min-h-screen px-20 bg-white dark:bg-neutral-950 text-gray-800 dark:text-white ">
@@ -345,7 +351,7 @@ import useProfile from "../hook/useProfile";
             {/* save button */}
             <div className="w-full flex justify-end">
               <button
-                onClick={handleSave}
+                onClick={handleSaveAndRedirect}
                 className="bg-green-600 hover:bg-green-500 text-white font-semibold py-2 px-8 rounded-lg transition duration-200"
               >
                 Save
