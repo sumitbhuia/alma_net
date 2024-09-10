@@ -24,23 +24,27 @@ const colorScheme = {
 const visionPoints = [
   {
     text: "Bridging the gap between students and alumni",
-    image: "/placeholder.svg?height=200&width=200"
+    image: "/vision/mentor.png?height=200&width=200"
   },
   {
     text: "Fostering a culture of mentorship and knowledge sharing",
-    image: "/placeholder.svg?height=200&width=200"
+    image: "/vision/sharing.png?height=200&width=200"
   },
   {
     text: "Empowering students with real-world insights",
-    image: "/placeholder.svg?height=200&width=200"
+    image: "/vision/insight.png?height=200&width=200"
   },
   {
     text: "Creating a thriving, supportive community",
-    image: "/placeholder.svg?height=200&width=200"
+    image: "/vision/community.png?height=200&width=200"
   },
   {
     text: "Driving innovation through collaboration",
-    image: "/placeholder.svg?height=200&width=200"
+    image: "/vision/collab.png?height=200&width=200"
+  },
+  {
+    text: "Creating a better future for students and alumni",
+    image: "/vision/future.png?height=200&width=200"
   }
 ]
 
@@ -50,9 +54,9 @@ export default function Vision() {
   const colors = isDark ? colorScheme.dark : colorScheme.light
 
   return (
-    <section className={`w-full py-20 ${colors.background} ${colors.text} relative overflow-hidden`}>
+    <section className={`w-full py-20  ${colors.background} ${colors.text} relative overflow-hidden`}>
       <motion.div 
-        className="absolute inset-0 opacity-30"
+        className="absolute inset-0 opacity-30 "
         animate={{
           background: [
             `linear-gradient(45deg, ${isDark ? '#ff00ff' : '#00ffff'}, ${isDark ? '#00ffff' : '#ff00ff'})`,
@@ -63,7 +67,7 @@ export default function Vision() {
         transition={{ duration: 10, repeat: Infinity, repeatType: "reverse" }}
       />
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 relative z-10 ">
         <motion.h2 
           className="text-4xl sm:text-5xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"
           initial={{ opacity: 0, y: -20 }}
@@ -81,7 +85,7 @@ export default function Vision() {
           At Almanet, we're committed to creating a vibrant ecosystem where students and alumni thrive together.
         </motion.p>
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 ">
           {visionPoints.map((point, index) => (
             <motion.div
               key={index}
@@ -93,8 +97,8 @@ export default function Vision() {
               <Image
                 src={point.image}
                 alt={`Vision point ${index + 1}`}
-                width={200}
-                height={200}
+                width={300}
+                height={100}
                 className="mb-4 rounded-lg"
               />
               <p className={`text-lg font-semibold text-center ${colors.cardText}`}>
