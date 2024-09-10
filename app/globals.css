@@ -68,28 +68,6 @@
   }
 }
 
-.gridBackground {
-  background: linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px), 
-              linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
-  background-size: 20px 20px;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 8%;
-  left: 0;
-}
-
-
-
-.glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-}
-
 .avatar {
   display: flex;
   align-items: center;
@@ -116,4 +94,58 @@
   width: 100%;
   height: 100%;
   background-color: #607d8b;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+
+/* In your CSS file or a <style> tag */
+@media (prefers-color-scheme: dark) {
+  .logo-light {
+    display: none;
+  }
+  .logo-dark {
+    display: block;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .logo-dark {
+    display: none;
+  }
+  .logo-light {
+    display: block;
+  }
 }
