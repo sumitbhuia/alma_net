@@ -7,13 +7,11 @@ export default function ClientSideLogo() {
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    console.log('Initial dark mode detection:', mediaQuery.matches);
 
     // Set initial dark mode based on the media query
     setIsDarkMode(mediaQuery.matches);
 
     const handleChange = (e: MediaQueryListEvent) => {
-      console.log('Dark mode changed to:', e.matches);
       setIsDarkMode(e.matches);
     };
 
@@ -25,15 +23,13 @@ export default function ClientSideLogo() {
     };
   }, [isDarkMode]);
 
-  console.log('Current dark mode state:', isDarkMode);
-
   return (
     <Link href="/" className="flex items-center">
       <span>
         <img
           src={isDarkMode ? "/asset/almanet-high-resolution-logo-white-transparent.svg" : "/asset/almanet-high-resolution-logo-transparent.svg"}
           alt="Almanet"
-          className="h-8"
+          className="h-4 sm:h-5 md:h-6 lg:h-7 xl:h-7"
         />
       </span>
     </Link>

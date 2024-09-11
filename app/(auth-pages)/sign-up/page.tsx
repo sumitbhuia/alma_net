@@ -17,7 +17,7 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
 
   return (
     <>
-      <form className="flex flex-col p-5 w-1/4 mx-auto">
+      <form className="flex flex-col p-5 w-auto mx-auto">
         <h1 className="text-2xl font-medium">Sign up</h1>
         <p className="text-sm text text-foreground">
           Already have an account?{" "}
